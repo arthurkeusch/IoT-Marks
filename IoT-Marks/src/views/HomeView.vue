@@ -26,82 +26,84 @@
           </span>
         </button>
 
-        <div class="acc-panel" v-show="isOpen(ALL_ID)">
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-              <tr>
-                <th class="col-rank sticky-left">#</th>
-                <th class="col-student sticky-left-2">Student</th>
+        <transition name="expand">
+          <div class="acc-panel" v-show="isOpen(ALL_ID)">
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th class="col-rank sticky-left">#</th>
+                  <th class="col-student sticky-left-2">Student</th>
 
-                <th v-for="ue in normalizedUes" :key="ue.id" class="col-exam">
-                  <div class="th-top">
-                    <div class="th-title">
-                      <div class="th-name">{{ ue.label }}</div>
-                      <div class="th-sub">Unit average</div>
+                  <th v-for="ue in normalizedUes" :key="ue.id" class="col-exam">
+                    <div class="th-top">
+                      <div class="th-title">
+                        <div class="th-name">{{ ue.label }}</div>
+                        <div class="th-sub">Unit average</div>
+                      </div>
+                      <div class="th-sort">
+                        <button
+                            class="sort-btn"
+                            type="button"
+                            @click="toggleAllSort(ue.id)"
+                            :class="sortBtnClass(allSortState(ue.id))"
+                            :aria-label="'Sort by ' + ue.label"
+                        >
+                          <SortIcon :state="allSortState(ue.id)"/>
+                        </button>
+                      </div>
                     </div>
-                    <div class="th-sort">
-                      <button
-                          class="sort-btn"
-                          type="button"
-                          @click="toggleAllSort(ue.id)"
-                          :class="sortBtnClass(allSortState(ue.id))"
-                          :aria-label="'Sort by ' + ue.label"
-                      >
-                        <SortIcon :state="allSortState(ue.id)"/>
-                      </button>
+                  </th>
+
+                  <th class="col-avg">
+                    <div class="th-top">
+                      <div class="th-title">
+                        <div class="th-name">Overall average</div>
+                        <div class="th-sub">Units (equal weight)</div>
+                      </div>
+                      <div class="th-sort">
+                        <button
+                            class="sort-btn"
+                            type="button"
+                            @click="toggleAllSort(ALL_AVG_KEY)"
+                            :class="sortBtnClass(allSortState(ALL_AVG_KEY))"
+                            aria-label="Sort by overall average"
+                        >
+                          <SortIcon :state="allSortState(ALL_AVG_KEY)"/>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                </th>
+                  </th>
+                </tr>
+                </thead>
 
-                <th class="col-avg">
-                  <div class="th-top">
-                    <div class="th-title">
-                      <div class="th-name">Overall average</div>
-                      <div class="th-sub">Units (equal weight)</div>
+                <tbody>
+                <tr v-for="(row, idx) in allRowsSorted" :key="row.studentId">
+                  <td class="col-rank sticky-left">{{ idx + 1 }}</td>
+                  <td class="col-student sticky-left-2">
+                    <div class="student">
+                      <div class="student-id">{{ row.studentId }}</div>
+                      <div class="student-name" v-if="studentName(row.studentId)">{{ studentName(row.studentId) }}</div>
                     </div>
-                    <div class="th-sort">
-                      <button
-                          class="sort-btn"
-                          type="button"
-                          @click="toggleAllSort(ALL_AVG_KEY)"
-                          :class="sortBtnClass(allSortState(ALL_AVG_KEY))"
-                          aria-label="Sort by overall average"
-                      >
-                        <SortIcon :state="allSortState(ALL_AVG_KEY)"/>
-                      </button>
-                    </div>
-                  </div>
-                </th>
-              </tr>
-              </thead>
+                  </td>
 
-              <tbody>
-              <tr v-for="(row, idx) in allRowsSorted" :key="row.studentId">
-                <td class="col-rank sticky-left">{{ idx + 1 }}</td>
-                <td class="col-student sticky-left-2">
-                  <div class="student">
-                    <div class="student-id">{{ row.studentId }}</div>
-                    <div class="student-name" v-if="studentName(row.studentId)">{{ studentName(row.studentId) }}</div>
-                  </div>
-                </td>
+                  <td v-for="ue in normalizedUes" :key="ue.id" class="cell">
+                    <span :class="['badge', row.ueAvg[ue.id] == null ? 'muted' : '']">{{ fmt(row.ueAvg[ue.id]) }}</span>
+                  </td>
 
-                <td v-for="ue in normalizedUes" :key="ue.id" class="cell">
-                  <span :class="['badge', row.ueAvg[ue.id] == null ? 'muted' : '']">{{ fmt(row.ueAvg[ue.id]) }}</span>
-                </td>
+                  <td class="cell avg-cell">
+                    <span :class="['badge', row.globalAvg == null ? 'muted' : '']">{{ fmt(row.globalAvg) }}</span>
+                  </td>
+                </tr>
 
-                <td class="cell avg-cell">
-                  <span :class="['badge', row.globalAvg == null ? 'muted' : '']">{{ fmt(row.globalAvg) }}</span>
-                </td>
-              </tr>
-
-              <tr v-if="allRowsSorted.length === 0">
-                <td :colspan="2 + normalizedUes.length + 1" class="empty">No data to display.</td>
-              </tr>
-              </tbody>
-            </table>
+                <tr v-if="allRowsSorted.length === 0">
+                  <td :colspan="2 + normalizedUes.length + 1" class="empty">No data to display.</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        </transition>
       </section>
 
       <section v-for="ue in normalizedUes" :key="ue.id" class="acc-item">
@@ -123,84 +125,86 @@
           </span>
         </button>
 
-        <div class="acc-panel" v-show="isOpen(ue.id)">
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-              <tr>
-                <th class="col-rank sticky-left">#</th>
-                <th class="col-student sticky-left-2">Student</th>
+        <transition name="expand">
+          <div class="acc-panel" v-show="isOpen(ue.id)">
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th class="col-rank sticky-left">#</th>
+                  <th class="col-student sticky-left-2">Student</th>
 
-                <th v-for="exam in ue.exams" :key="exam.id" class="col-exam">
-                  <div class="th-top">
-                    <div class="th-title">
-                      <div class="th-name">{{ exam.label }}</div>
-                      <div class="th-sub">coef {{ exam.coef }}</div>
+                  <th v-for="exam in ue.exams" :key="exam.id" class="col-exam">
+                    <div class="th-top">
+                      <div class="th-title">
+                        <div class="th-name">{{ exam.label }}</div>
+                        <div class="th-sub">coef {{ exam.coef }}</div>
+                      </div>
+                      <div class="th-sort">
+                        <button
+                            class="sort-btn"
+                            type="button"
+                            @click="toggleUeSort(ue.id, exam.id)"
+                            :class="sortBtnClass(ueSortState(ue.id, exam.id))"
+                            :aria-label="'Sort by ' + exam.label"
+                        >
+                          <SortIcon :state="ueSortState(ue.id, exam.id)"/>
+                        </button>
+                      </div>
                     </div>
-                    <div class="th-sort">
-                      <button
-                          class="sort-btn"
-                          type="button"
-                          @click="toggleUeSort(ue.id, exam.id)"
-                          :class="sortBtnClass(ueSortState(ue.id, exam.id))"
-                          :aria-label="'Sort by ' + exam.label"
-                      >
-                        <SortIcon :state="ueSortState(ue.id, exam.id)"/>
-                      </button>
-                    </div>
-                  </div>
-                </th>
+                  </th>
 
-                <th class="col-avg">
-                  <div class="th-top">
-                    <div class="th-title">
-                      <div class="th-name">Unit average</div>
-                      <div class="th-sub">weighted</div>
+                  <th class="col-avg">
+                    <div class="th-top">
+                      <div class="th-title">
+                        <div class="th-name">Unit average</div>
+                        <div class="th-sub">weighted</div>
+                      </div>
+                      <div class="th-sort">
+                        <button
+                            class="sort-btn"
+                            type="button"
+                            @click="toggleUeSort(ue.id, UE_AVG_KEY)"
+                            :class="sortBtnClass(ueSortState(ue.id, UE_AVG_KEY))"
+                            aria-label="Sort by unit average"
+                        >
+                          <SortIcon :state="ueSortState(ue.id, UE_AVG_KEY)"/>
+                        </button>
+                      </div>
                     </div>
-                    <div class="th-sort">
-                      <button
-                          class="sort-btn"
-                          type="button"
-                          @click="toggleUeSort(ue.id, UE_AVG_KEY)"
-                          :class="sortBtnClass(ueSortState(ue.id, UE_AVG_KEY))"
-                          aria-label="Sort by unit average"
-                      >
-                        <SortIcon :state="ueSortState(ue.id, UE_AVG_KEY)"/>
-                      </button>
+                  </th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr v-for="(row, idx) in ue.rowsSorted" :key="row.studentId">
+                  <td class="col-rank sticky-left">{{ idx + 1 }}</td>
+                  <td class="col-student sticky-left-2">
+                    <div class="student">
+                      <div class="student-id">{{ row.studentId }}</div>
+                      <div class="student-name" v-if="studentName(row.studentId)">{{ studentName(row.studentId) }}</div>
                     </div>
-                  </div>
-                </th>
-              </tr>
-              </thead>
+                  </td>
 
-              <tbody>
-              <tr v-for="(row, idx) in ue.rowsSorted" :key="row.studentId">
-                <td class="col-rank sticky-left">{{ idx + 1 }}</td>
-                <td class="col-student sticky-left-2">
-                  <div class="student">
-                    <div class="student-id">{{ row.studentId }}</div>
-                    <div class="student-name" v-if="studentName(row.studentId)">{{ studentName(row.studentId) }}</div>
-                  </div>
-                </td>
-
-                <td v-for="exam in ue.exams" :key="exam.id" class="cell">
+                  <td v-for="exam in ue.exams" :key="exam.id" class="cell">
                     <span :class="['badge', row.grades?.[exam.id] == null ? 'muted' : '']">
                       {{ fmt(row.grades?.[exam.id]) }}
                     </span>
-                </td>
+                  </td>
 
-                <td class="cell avg-cell">
-                  <span :class="['badge', row.ueAvg == null ? 'muted' : '']">{{ fmt(row.ueAvg) }}</span>
-                </td>
-              </tr>
+                  <td class="cell avg-cell">
+                    <span :class="['badge', row.ueAvg == null ? 'muted' : '']">{{ fmt(row.ueAvg) }}</span>
+                  </td>
+                </tr>
 
-              <tr v-if="ue.rowsSorted.length === 0">
-                <td :colspan="2 + ue.exams.length + 1" class="empty">No data to display.</td>
-              </tr>
-              </tbody>
-            </table>
+                <tr v-if="ue.rowsSorted.length === 0">
+                  <td :colspan="2 + ue.exams.length + 1" class="empty">No data to display.</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        </transition>
       </section>
     </div>
   </div>
@@ -661,13 +665,11 @@ const allRows = computed(() => {
     }
   }
 
-  const rows = Array.from(m.values()).map(r => {
+  return Array.from(m.values()).map(r => {
     const avgs = normalizedUes.value.map(ue => r.ueAvg[ue.id]).filter(v => v != null && Number.isFinite(Number(v)))
     r.globalAvg = avgs.length ? avgs.reduce((a, b) => a + Number(b), 0) / avgs.length : null
     return r
   })
-
-  return rows
 })
 
 const allRowsSorted = computed(() => {
@@ -688,19 +690,7 @@ const allRowsSorted = computed(() => {
 
 <style scoped>
 .page {
-  --bg: #0b1020;
-  --line: rgba(255, 255, 255, 0.12);
-  --grid: rgba(255, 255, 255, 0.10);
-  --text: rgba(255, 255, 255, 0.92);
-  --muted: rgba(255, 255, 255, 0.62);
-
-  min-height: 100vh;
-  background: radial-gradient(1200px 600px at 15% 0%, rgba(78, 161, 255, 0.16), transparent 55%),
-  radial-gradient(900px 500px at 85% 10%, rgba(102, 240, 255, 0.10), transparent 60%),
-  var(--bg);
-  color: var(--text);
   padding: 20px 18px 48px;
-  box-sizing: border-box;
 }
 
 .header {
@@ -823,6 +813,22 @@ const allRowsSorted = computed(() => {
 .acc-panel {
   border-top: 1px solid var(--line);
   padding: 12px 12px 14px;
+  overflow: hidden;
+}
+
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.5s ease-in-out;
+  max-height: 1000px;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  border-top-color: transparent;
 }
 
 .table-wrap {
