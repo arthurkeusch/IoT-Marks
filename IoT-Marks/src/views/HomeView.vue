@@ -3,7 +3,6 @@
     <div class="header">
       <div class="title">
         <h1>IoT-Marks</h1>
-        <p>Units · rankings · averages</p>
       </div>
     </div>
 
@@ -49,7 +48,7 @@
                           :class="sortBtnClass(allSortState(ue.id))"
                           :aria-label="'Sort by ' + ue.label"
                       >
-                        <SortIcon :state="allSortState(ue.id)" />
+                        <SortIcon :state="allSortState(ue.id)"/>
                       </button>
                     </div>
                   </div>
@@ -69,7 +68,7 @@
                           :class="sortBtnClass(allSortState(ALL_AVG_KEY))"
                           aria-label="Sort by overall average"
                       >
-                        <SortIcon :state="allSortState(ALL_AVG_KEY)" />
+                        <SortIcon :state="allSortState(ALL_AVG_KEY)"/>
                       </button>
                     </div>
                   </div>
@@ -146,7 +145,7 @@
                           :class="sortBtnClass(ueSortState(ue.id, exam.id))"
                           :aria-label="'Sort by ' + exam.label"
                       >
-                        <SortIcon :state="ueSortState(ue.id, exam.id)" />
+                        <SortIcon :state="ueSortState(ue.id, exam.id)"/>
                       </button>
                     </div>
                   </div>
@@ -166,7 +165,7 @@
                           :class="sortBtnClass(ueSortState(ue.id, UE_AVG_KEY))"
                           aria-label="Sort by unit average"
                       >
-                        <SortIcon :state="ueSortState(ue.id, UE_AVG_KEY)" />
+                        <SortIcon :state="ueSortState(ue.id, UE_AVG_KEY)"/>
                       </button>
                     </div>
                   </div>
@@ -208,7 +207,7 @@
 </template>
 
 <script setup>
-import { computed, defineComponent, h, reactive, ref } from "vue"
+import {computed, defineComponent, h, reactive, ref} from "vue"
 
 const ALL_ID = "__ALL__"
 const UE_AVG_KEY = "__UE_AVG__"
@@ -216,20 +215,26 @@ const ALL_AVG_KEY = "__ALL_AVG__"
 
 const SortIcon = defineComponent({
   name: "SortIcon",
-  props: { state: { type: String, default: "none" } },
+  props: {state: {type: String, default: "none"}},
   setup(props) {
     return () => {
       if (props.state === "asc") {
-        return h("svg", { class: "icon", viewBox: "0 0 16 16", "aria-hidden": "true" }, [
-          h("path", { fill: "currentColor", d: "M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5A.5.5 0 0 0 8 15z" })
+        return h("svg", {class: "icon", viewBox: "0 0 16 16", "aria-hidden": "true"}, [
+          h("path", {
+            fill: "currentColor",
+            d: "M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5A.5.5 0 0 0 8 15z"
+          })
         ])
       }
       if (props.state === "desc") {
-        return h("svg", { class: "icon", viewBox: "0 0 16 16", "aria-hidden": "true" }, [
-          h("path", { fill: "currentColor", d: "M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z" })
+        return h("svg", {class: "icon", viewBox: "0 0 16 16", "aria-hidden": "true"}, [
+          h("path", {
+            fill: "currentColor",
+            d: "M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"
+          })
         ])
       }
-      return h("svg", { class: "icon", viewBox: "0 0 16 16", "aria-hidden": "true" }, [
+      return h("svg", {class: "icon", viewBox: "0 0 16 16", "aria-hidden": "true"}, [
         h("path", {
           fill: "currentColor",
           d: "M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 0-.5.5v11.793l-3.146-3.147a.5.5 0 0 0-.708.708l4 4a.5.5 0 0 0 .708 0l4-4a.5.5 0 0 0-.708-.708L5 13.293V1.5A.5.5 0 0 0 4.5 1z"
@@ -238,12 +243,6 @@ const SortIcon = defineComponent({
     }
   }
 })
-
-const students = ref([
-  { studentId: "221001", firstName: "Martin" },
-  { studentId: "221002", firstName: "Bernard" },
-  { studentId: "221003", firstName: "" }
-])
 
 const studentMap = computed(() => {
   const m = new Map()
@@ -261,51 +260,210 @@ function studentName(id) {
   return name ? name : ""
 }
 
+const students = ref([
+  {studentId: "22408731", firstName: ""},
+  {studentId: "22507302", firstName: ""},
+  {studentId: "22505985", firstName: ""},
+  {studentId: "22409344", firstName: ""},
+  {studentId: "22203353", firstName: ""},
+  {studentId: "22305472", firstName: ""},
+  {studentId: "22505517", firstName: ""},
+  {studentId: "22507945", firstName: ""},
+  {studentId: "22202376", firstName: ""},
+  {studentId: "22506824", firstName: ""},
+  {studentId: "22507293", firstName: ""},
+  {studentId: "22203035", firstName: "Arthur KEUSCH"},
+  {studentId: "22506883", firstName: ""},
+  {studentId: "22102335", firstName: ""},
+  {studentId: "22104441", firstName: ""},
+  {studentId: "22509181", firstName: ""},
+  {studentId: "22509749", firstName: ""},
+  {studentId: "22011226", firstName: ""}
+])
+
 const ueTable = ref([
   {
-    code: "UNIT-IOT-101",
-    name: "Sensors & acquisition",
+    code: "UE1",
+    name: "Team Management and Communication",
     exams: [
       {
-        name: "Midterm",
-        coefficient: 2,
+        name: "Livrable",
+        coefficient: 0.40,
         notes: [
-          { studentId: "221001", note: 14.5 },
-          { studentId: "221002", note: 11.0 },
-          { studentId: "221003", note: 9.5 }
+          {studentId: "22507302", note: 14.0},
+          {studentId: "22505985", note: 16.0},
+          {studentId: "22409344", note: 16.0},
+          {studentId: "22203353", note: 15.0},
+          {studentId: "22305472", note: 14.0},
+          {studentId: "22505517", note: 15.0},
+          {studentId: "22507945", note: 16.0},
+          {studentId: "22202376", note: 16.0},
+          {studentId: "22506824", note: 16.0},
+          {studentId: "22507293", note: 14.0},
+          {studentId: "22203035", note: 16.0},
+          {studentId: "22506883", note: 14.5},
+
+          {studentId: "22104441", note: 13.0},
+          {studentId: "22509181", note: 16.0},
+          {studentId: "22509749", note: 14.5},
+          {studentId: "22011226", note: 16.0}
         ]
       },
       {
-        name: "Lab",
-        coefficient: 1,
+        name: "Oral",
+        coefficient: 0.30,
         notes: [
-          { studentId: "221001", note: 16.0 },
-          { studentId: "221002", note: 12.5 },
-          { studentId: "221003", note: 10.0 }
+          {studentId: "22507302", note: 14.0},
+          {studentId: "22505985", note: 15.0},
+          {studentId: "22409344", note: 15.0},
+          {studentId: "22203353", note: 14.0},
+          {studentId: "22305472", note: 14.0},
+          {studentId: "22505517", note: 14.0},
+          {studentId: "22507945", note: 15.0},
+          {studentId: "22202376", note: 13.0},
+          {studentId: "22506824", note: 14.0},
+          {studentId: "22507293", note: 14.0},
+          {studentId: "22203035", note: 13.0},
+          {studentId: "22506883", note: 14.5},
+
+          {studentId: "22104441", note: 13.0},
+          {studentId: "22509181", note: 16.0},
+          {studentId: "22509749", note: 14.5},
+          {studentId: "22011226", note: 13.0}
+        ]
+      },
+      {
+        name: "Livrable",
+        coefficient: 0.30,
+        notes: [
+          {studentId: "22507302", note: 14.5},
+          {studentId: "22505985", note: 16.0},
+          {studentId: "22409344", note: 16.0},
+          {studentId: "22203353", note: 16.0},
+          {studentId: "22305472", note: 14.5},
+          {studentId: "22505517", note: 16.0},
+          {studentId: "22507945", note: 16.0},
+          {studentId: "22202376", note: 16.0},
+          {studentId: "22506824", note: 16.0},
+          {studentId: "22507293", note: 14.5},
+          {studentId: "22203035", note: 16.0},
+          {studentId: "22506883", note: 14.0},
+          {studentId: "22102335", note: 11.0},
+          {studentId: "22104441", note: 13.0},
+          {studentId: "22509181", note: 16.0},
+          {studentId: "22509749", note: 14.0},
+          {studentId: "22011226", note: 16.0}
         ]
       }
     ]
   },
   {
-    code: "UNIT-IOT-102",
-    name: "IoT networks",
+    code: "UE5",
+    name: "Embedded Systems",
     exams: [
       {
-        name: "Project",
-        coefficient: 3,
+        name: "Ecrit",
+        coefficient: 0.50,
         notes: [
-          { studentId: "221001", note: 15.0 },
-          { studentId: "221002", note: 13.0 },
-          { studentId: "221003", note: 12.0 }
+          {studentId: "22408731", note: 13.94},
+          {studentId: "22507302", note: 11.79},
+          {studentId: "22505985", note: 10.23},
+          {studentId: "22409344", note: 10.23},
+          {studentId: "22203353", note: 17.40},
+          {studentId: "22305472", note: 11.94},
+          {studentId: "22505517", note: 11.99},
+          {studentId: "22507945", note: 12.61},
+          {studentId: "22202376", note: 13.88},
+          {studentId: "22506824", note: 11.50},
+          {studentId: "22507293", note: 18.84},
+          {studentId: "22203035", note: 14.19},
+          {studentId: "22506883", note: 7.46},
+          {studentId: "22102335", note: 7.08},
+          {studentId: "22104441", note: 3.33},
+          {studentId: "22509181", note: 7.48},
+          {studentId: "22509749", note: 9.84},
+          {studentId: "22011226", note: 18.13}
+        ]
+      },
+      {
+        name: "Ecrit (QCM)",
+        coefficient: 0.20,
+        notes: [
+          {studentId: "22408731", note: 17.5},
+          {studentId: "22507302", note: 20.0},
+          {studentId: "22505985", note: 5.0},
+          {studentId: "22409344", note: 8.5},
+          {studentId: "22203353", note: 7.0},
+          {studentId: "22305472", note: 20.0},
+          {studentId: "22505517", note: 8.5},
+          {studentId: "22507945", note: 3.5},
+          {studentId: "22202376", note: 10.0},
+          {studentId: "22506824", note: 5.0},
+          {studentId: "22507293", note: 17.0},
+          {studentId: "22203035", note: 7.5},
+          {studentId: "22506883", note: 4.5},
+          {studentId: "22102335", note: 5.0},
+          {studentId: "22104441", note: 8.5},
+          {studentId: "22509181", note: 5.0},
+          {studentId: "22509749", note: 2.0},
+          {studentId: "22011226", note: 11.0}
+        ]
+      },
+      {
+        name: "Livrable",
+        coefficient: 0.10,
+        notes: [
+          {studentId: "22408731", note: 14.71},
+          {studentId: "22507302", note: 17.65},
+          {studentId: "22505985", note: 14.71},
+          {studentId: "22409344", note: 10.29},
+          {studentId: "22203353", note: 8.82},
+          {studentId: "22305472", note: 8.82},
+          {studentId: "22505517", note: 10.29},
+          {studentId: "22507945", note: 10.29},
+          {studentId: "22202376", note: 10.29},
+          {studentId: "22506824", note: 10.29},
+          {studentId: "22507293", note: 17.65},
+          {studentId: "22203035", note: 11.76},
+          {studentId: "22506883", note: 8.82},
+          {studentId: "22102335", note: 2.94},
+          {studentId: "22104441", note: 2.94},
+          {studentId: "22509181", note: 10.29},
+          {studentId: "22509749", note: 8.82},
+          {studentId: "22011226", note: 11.76}
+        ]
+      },
+      {
+        name: "Oral",
+        coefficient: 0.20,
+        notes: [
+          {studentId: "22408731", note: 20.0},
+          {studentId: "22507302", note: 20.0},
+          {studentId: "22505985", note: 20.0},
+          {studentId: "22409344", note: 16.67},
+          {studentId: "22203353", note: 13.33},
+          {studentId: "22305472", note: 13.33},
+          {studentId: "22505517", note: 16.67},
+          {studentId: "22507945", note: 16.67},
+          {studentId: "22202376", note: 6.67},
+          {studentId: "22506824", note: 16.67},
+          {studentId: "22507293", note: 20.0},
+          {studentId: "22203035", note: 13.33},
+          {studentId: "22506883", note: 20.0},
+          {studentId: "22102335", note: 3.33},
+          {studentId: "22104441", note: 3.33},
+          {studentId: "22509181", note: 6.67},
+          {studentId: "22509749", note: 20.0},
+          {studentId: "22011226", note: 13.33}
         ]
       }
     ]
   }
-])
+]);
 
 const openSet = reactive(new Set([ALL_ID]))
 const ueSort = reactive({})
-const allSort = reactive({ key: ALL_AVG_KEY, dir: "desc" })
+const allSort = reactive({key: ALL_AVG_KEY, dir: "desc"})
 
 function isOpen(id) {
   return openSet.has(id)
@@ -351,7 +509,7 @@ function cmpNullable(a, b, dir) {
 
 function stableSort(arr, compare) {
   return arr
-      .map((v, i) => ({ v, i }))
+      .map((v, i) => ({v, i}))
       .sort((a, b) => {
         const c = compare(a.v, b.v)
         if (c !== 0) return c
@@ -424,18 +582,18 @@ function toggleAllSort(key) {
 function toggleUeSort(ueId, key) {
   const s = ueSort[ueId]
   if (!s || s.key !== key) {
-    ueSort[ueId] = { key, dir: "desc" }
+    ueSort[ueId] = {key, dir: "desc"}
     return
   }
   if (s.dir === "desc") {
-    ueSort[ueId] = { key, dir: "asc" }
+    ueSort[ueId] = {key, dir: "asc"}
     return
   }
   if (s.dir === "asc") {
-    ueSort[ueId] = { key: null, dir: null }
+    ueSort[ueId] = {key: null, dir: null}
     return
   }
-  ueSort[ueId] = { key, dir: "desc" }
+  ueSort[ueId] = {key, dir: "desc"}
 }
 
 const normalizedUes = computed(() => {
@@ -455,11 +613,11 @@ const normalizedUes = computed(() => {
           .map(nRaw => {
             const studentId = toStr(pick(nRaw, ["studentId", "id", "num", "numero", "numeroEtudiant"], "")) || ""
             const grade = normNumber(pick(nRaw, ["grade", "note", "value", "score"], null))
-            return { studentId, grade }
+            return {studentId, grade}
           })
           .filter(x => x.studentId)
 
-      return { id: exId, label: exLabel, coef, notes }
+      return {id: exId, label: exLabel, coef, notes}
     })
 
     const sIds = new Set()
@@ -472,7 +630,7 @@ const normalizedUes = computed(() => {
         grades[ex.id] = hit ? hit.grade : null
       }
       const ueAvg = computeUeAvg(exams, grades)
-      return { studentId, grades, ueAvg }
+      return {studentId, grades, ueAvg}
     })
 
     const s = ueSort[id]
@@ -489,7 +647,7 @@ const normalizedUes = computed(() => {
       })
     })()
 
-    return { id, label, exams, rows, rowsSorted }
+    return {id, label, exams, rows, rowsSorted}
   })
 })
 
@@ -498,7 +656,7 @@ const allRows = computed(() => {
 
   for (const ue of normalizedUes.value) {
     for (const r of ue.rows) {
-      if (!m.has(r.studentId)) m.set(r.studentId, { studentId: r.studentId, ueAvg: {}, globalAvg: null })
+      if (!m.has(r.studentId)) m.set(r.studentId, {studentId: r.studentId, ueAvg: {}, globalAvg: null})
       m.get(r.studentId).ueAvg[ue.id] = r.ueAvg
     }
   }
