@@ -833,12 +833,19 @@ const allRowsSorted = computed(() => {
 
 .table-wrap {
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
   border-radius: 12px;
   border: 1px solid var(--line);
   background: rgba(0, 0, 0, 0.22);
+  position: relative;
+  isolation: isolate;
 }
 
 .table {
+  --rank-w: 62px;
+  --student-w: 260px;
+
   width: 100%;
   border-collapse: collapse;
   min-width: 720px;
@@ -856,7 +863,7 @@ const allRowsSorted = computed(() => {
   position: sticky;
   top: 0;
   z-index: 3;
-  background: rgba(12, 18, 36, 0.96);
+  background: rgba(12, 18, 36, 1);
   color: rgba(255, 255, 255, 0.88);
   font-size: 12px;
   font-weight: 650;
@@ -867,12 +874,14 @@ const allRowsSorted = computed(() => {
 }
 
 .col-rank {
-  width: 62px;
+  width: var(--rank-w);
+  min-width: var(--rank-w);
   font-variant-numeric: tabular-nums;
 }
 
 .col-student {
-  width: 260px;
+  width: var(--student-w);
+  min-width: var(--student-w);
 }
 
 .col-exam {
@@ -887,19 +896,27 @@ const allRowsSorted = computed(() => {
   position: sticky;
   left: 0;
   z-index: 5;
-  background: rgba(12, 18, 36, 0.96);
+  background: rgba(12, 18, 36, 1);
+  background-clip: padding-box;
 }
 
 .sticky-left-2 {
   position: sticky;
-  left: 62px;
+  left: var(--rank-w);
   z-index: 5;
-  background: rgba(12, 18, 36, 0.96);
+  background: rgba(12, 18, 36, 1);
+  background-clip: padding-box;
+  box-shadow: 10px 0 18px rgba(0, 0, 0, 0.28);
+}
+
+.table thead .sticky-left,
+.table thead .sticky-left-2 {
+  z-index: 7;
 }
 
 .table tbody .sticky-left,
 .table tbody .sticky-left-2 {
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(10, 14, 28, 1);
 }
 
 .th-top {
@@ -1021,5 +1038,58 @@ const allRowsSorted = computed(() => {
   color: var(--muted);
   padding: 18px 10px;
   font-size: 13px;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 14px 12px 28px;
+  }
+
+  .title h1 {
+    font-size: 22px;
+  }
+
+  .table {
+    --rank-w: 52px;
+    --student-w: 200px;
+    min-width: 640px;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 8px;
+  }
+
+  .col-exam {
+    min-width: 140px;
+  }
+
+  .col-avg {
+    min-width: 150px;
+  }
+
+  .th-name {
+    max-width: 160px;
+  }
+
+  .student-name {
+    max-width: 160px;
+  }
+
+  .badge {
+    min-width: 60px;
+    padding: 5px 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .table {
+    --student-w: 170px;
+    min-width: 560px;
+  }
+
+  .col-exam {
+    min-width: 120px;
+  }
 }
 </style>
