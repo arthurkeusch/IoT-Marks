@@ -1,0 +1,16 @@
+name: IoT-Marks
+
+services:
+  frontend:
+    build:
+      context: ./IoT-Marks
+      dockerfile: Dockerfile
+    container_name: IoT-Marks_frontend
+    expose:
+      - "8080"
+    restart: unless-stopped
+    networks: [ WebSite ]
+
+networks:
+  WebSite:
+    external: true
