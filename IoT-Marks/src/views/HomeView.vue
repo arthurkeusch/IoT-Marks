@@ -690,7 +690,82 @@ const allRowsSorted = computed(() => {
 
 <style scoped>
 .page {
+  --bg: #f6f8fc;
+  --panel-grad-1: rgba(255, 255, 255, 0.92);
+  --panel-grad-2: rgba(255, 255, 255, 0.78);
+
+  --text: rgba(10, 18, 32, 0.92);
+  --muted: rgba(10, 18, 32, 0.62);
+
+  --line: rgba(10, 18, 32, 0.14);
+  --grid: rgba(10, 18, 32, 0.10);
+
+  --hover: rgba(10, 18, 32, 0.035);
+
+  --btn-bg: rgba(10, 18, 32, 0.03);
+  --btn-bg-hover: rgba(10, 18, 32, 0.06);
+
+  --table-wrap-bg: rgba(255, 255, 255, 0.88);
+  --thead-bg: rgba(248, 250, 255, 1);
+  --thead-text: rgba(10, 18, 32, 0.88);
+
+  --sticky-head-bg: var(--thead-bg);
+  --sticky-body-bg: rgba(252, 253, 255, 1);
+
+  --accent-soft: rgba(47, 124, 246, 0.10);
+  --accent-soft-2: rgba(27, 188, 214, 0.10);
+  --accent-btn-border: rgba(47, 124, 246, 0.55);
+  --accent-btn-bg: rgba(47, 124, 246, 0.14);
+
+  --badge-border: rgba(10, 18, 32, 0.12);
+  --badge-muted-bg: rgba(10, 18, 32, 0.045);
+  --badge-muted-text: rgba(10, 18, 32, 0.56);
+
+  --card-shadow: 0 10px 26px rgba(10, 18, 32, 0.08);
+  --sticky-shadow: 10px 0 18px rgba(10, 18, 32, 0.12);
+
   padding: 20px 18px 48px;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    --bg: #070b14;
+    --panel-grad-1: rgba(255, 255, 255, 0.045);
+    --panel-grad-2: rgba(255, 255, 255, 0.025);
+
+    --text: rgba(255, 255, 255, 0.92);
+    --muted: rgba(255, 255, 255, 0.62);
+
+    --line: rgba(255, 255, 255, 0.12);
+    --grid: rgba(255, 255, 255, 0.10);
+
+    --hover: rgba(255, 255, 255, 0.028);
+
+    --btn-bg: rgba(255, 255, 255, 0.03);
+    --btn-bg-hover: rgba(255, 255, 255, 0.06);
+
+    --table-wrap-bg: rgba(0, 0, 0, 0.22);
+    --thead-bg: rgba(12, 18, 36, 1);
+    --thead-text: rgba(255, 255, 255, 0.88);
+
+    --sticky-head-bg: rgba(12, 18, 36, 1);
+    --sticky-body-bg: rgba(10, 14, 28, 1);
+
+    --accent-soft: rgba(78, 161, 255, 0.10);
+    --accent-soft-2: rgba(102, 240, 255, 0.10);
+    --accent-btn-border: rgba(78, 161, 255, 0.65);
+    --accent-btn-bg: rgba(78, 161, 255, 0.16);
+
+    --badge-border: rgba(255, 255, 255, 0.12);
+    --badge-muted-bg: rgba(255, 255, 255, 0.04);
+    --badge-muted-text: rgba(255, 255, 255, 0.62);
+
+    --card-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+    --sticky-shadow: 10px 0 18px rgba(0, 0, 0, 0.28);
+  }
 }
 
 .header {
@@ -724,9 +799,10 @@ const allRowsSorted = computed(() => {
 
 .acc-item {
   border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.025));
+  background: linear-gradient(180deg, var(--panel-grad-1), var(--panel-grad-2));
   border-radius: 14px;
   overflow: hidden;
+  box-shadow: var(--card-shadow);
 }
 
 .acc-trigger {
@@ -744,7 +820,7 @@ const allRowsSorted = computed(() => {
 }
 
 .acc-trigger:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--hover);
 }
 
 .acc-left {
@@ -759,8 +835,8 @@ const allRowsSorted = computed(() => {
   padding: 4px 8px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: rgba(78, 161, 255, 0.08);
-  color: rgba(255, 255, 255, 0.90);
+  background: var(--accent-soft);
+  color: var(--text);
   flex: 0 0 auto;
 }
 
@@ -792,12 +868,12 @@ const allRowsSorted = computed(() => {
   justify-content: center;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--btn-bg);
   transition: transform 160ms ease, background 160ms ease;
 }
 
 .acc-chevron:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--btn-bg-hover);
 }
 
 .acc-chevron.open {
@@ -837,7 +913,7 @@ const allRowsSorted = computed(() => {
   overscroll-behavior-x: contain;
   border-radius: 12px;
   border: 1px solid var(--line);
-  background: rgba(0, 0, 0, 0.22);
+  background: var(--table-wrap-bg);
   position: relative;
   isolation: isolate;
 }
@@ -863,14 +939,14 @@ const allRowsSorted = computed(() => {
   position: sticky;
   top: 0;
   z-index: 3;
-  background: rgba(12, 18, 36, 1);
-  color: rgba(255, 255, 255, 0.88);
+  background: var(--thead-bg);
+  color: var(--thead-text);
   font-size: 12px;
   font-weight: 650;
 }
 
 .table tbody tr:hover td {
-  background: rgba(255, 255, 255, 0.025);
+  background: var(--hover);
 }
 
 .col-rank {
@@ -896,7 +972,7 @@ const allRowsSorted = computed(() => {
   position: sticky;
   left: 0;
   z-index: 5;
-  background: rgba(12, 18, 36, 1);
+  background: var(--sticky-head-bg);
   background-clip: padding-box;
 }
 
@@ -904,9 +980,9 @@ const allRowsSorted = computed(() => {
   position: sticky;
   left: var(--rank-w);
   z-index: 5;
-  background: rgba(12, 18, 36, 1);
+  background: var(--sticky-head-bg);
   background-clip: padding-box;
-  box-shadow: 10px 0 18px rgba(0, 0, 0, 0.28);
+  box-shadow: var(--sticky-shadow);
 }
 
 .table thead .sticky-left,
@@ -916,7 +992,7 @@ const allRowsSorted = computed(() => {
 
 .table tbody .sticky-left,
 .table tbody .sticky-left-2 {
-  background: rgba(10, 14, 28, 1);
+  background: var(--sticky-body-bg);
 }
 
 .th-top {
@@ -961,8 +1037,8 @@ const allRowsSorted = computed(() => {
   height: 30px;
   border-radius: 10px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
-  color: rgba(255, 255, 255, 0.76);
+  background: var(--btn-bg);
+  color: var(--muted);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -972,18 +1048,18 @@ const allRowsSorted = computed(() => {
 }
 
 .sort-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--btn-bg-hover);
 }
 
 .sort-btn.state-none {
-  color: rgba(255, 255, 255, 0.70);
+  color: var(--muted);
 }
 
 .sort-btn.state-asc,
 .sort-btn.state-desc {
-  border-color: rgba(78, 161, 255, 0.65);
-  background: rgba(78, 161, 255, 0.16);
-  color: rgba(255, 255, 255, 0.92);
+  border-color: var(--accent-btn-border);
+  background: var(--accent-btn-bg);
+  color: var(--text);
 }
 
 .student {
@@ -1015,14 +1091,15 @@ const allRowsSorted = computed(() => {
   min-width: 72px;
   padding: 6px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(78, 161, 255, 0.10);
+  border: 1px solid var(--badge-border);
+  background: var(--accent-soft);
+  color: var(--text);
   font-variant-numeric: tabular-nums;
 }
 
 .badge.muted {
-  background: rgba(255, 255, 255, 0.04);
-  color: rgba(255, 255, 255, 0.62);
+  background: var(--badge-muted-bg);
+  color: var(--badge-muted-text);
 }
 
 .cell {
@@ -1030,7 +1107,7 @@ const allRowsSorted = computed(() => {
 }
 
 .avg-cell .badge {
-  background: rgba(102, 240, 255, 0.10);
+  background: var(--accent-soft-2);
 }
 
 .empty {
