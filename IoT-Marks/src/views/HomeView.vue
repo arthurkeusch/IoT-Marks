@@ -588,6 +588,81 @@ const ueTable = ref([
         ]
       }
     ]
+  },
+  {
+    code: "UE3",
+    name: "Infrastructure and Routing for Connected Objects",
+    exams: [
+      {
+        name: "Ecrit",
+        coefficient: 0.50,
+        notes: [
+          {studentId: "22507302", note: 13.5},
+          {studentId: "22505985", note: 15.0},
+          {studentId: "22409344", note: 15.0},
+          {studentId: "22203353", note: 6.0},
+          {studentId: "22305472", note: 12.5},
+          {studentId: "22505517", note: 5.5},
+          {studentId: "22507945", note: 8.0},
+          {studentId: "22202376", note: 3.5},
+          {studentId: "22506824", note: 7.5},
+          {studentId: "22507293", note: 16.5},
+          {studentId: "22203035", note: 15.5},
+          {studentId: "22506883", note: 9.5},
+          {studentId: "22102335", note: 10.0},
+          {studentId: "22104441", note: 7.0},
+          {studentId: "22509181", note: 15.0},
+          {studentId: "22509749", note: 7.5},
+          {studentId: "22011226", note: 13.5}
+        ]
+      },
+      {
+        name: "Livrable",
+        coefficient: 0.25,
+        notes: [
+          {studentId: "22507302", note: 17.5},
+          {studentId: "22505985", note: 14.0},
+          {studentId: "22409344", note: 14.5},
+          {studentId: "22203353", note: 13.0},
+          {studentId: "22305472", note: 17.5},
+          {studentId: "22505517", note: 14.5},
+          {studentId: "22507945", note: 14.5},
+          {studentId: "22202376", note: 13.0},
+          {studentId: "22506824", note: 13.0},
+          {studentId: "22507293", note: 17.5},
+          {studentId: "22203035", note: 13.0},
+          {studentId: "22506883", note: 14.5},
+          {studentId: "22102335", note: 15.5},
+          {studentId: "22104441", note: 15.5},
+          {studentId: "22509181", note: 17.5},
+          {studentId: "22509749", note: 14.5},
+          {studentId: "22011226", note: 13.0}
+        ]
+      },
+      {
+        name: "Oral",
+        coefficient: 0.25,
+        notes: [
+          {studentId: "22507302", note: 17.5},
+          {studentId: "22505985", note: 14.0},
+          {studentId: "22409344", note: 14.5},
+          {studentId: "22203353", note: 13.0},
+          {studentId: "22305472", note: 17.5},
+          {studentId: "22505517", note: 14.5},
+          {studentId: "22507945", note: 14.5},
+          {studentId: "22202376", note: 13.0},
+          {studentId: "22506824", note: 13.0},
+          {studentId: "22507293", note: 17.5},
+          {studentId: "22203035", note: 13.0},
+          {studentId: "22506883", note: 14.5},
+          {studentId: "22102335", note: 15.5},
+          {studentId: "22104441", note: 15.5},
+          {studentId: "22509181", note: 17.5},
+          {studentId: "22509749", note: 14.5},
+          {studentId: "22011226", note: 13.0}
+        ]
+      }
+    ]
   }
 ]);
 
