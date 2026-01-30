@@ -925,6 +925,8 @@ const allRowsSorted = computed(() => {
   --card-shadow: 0 10px 26px rgba(10, 18, 32, 0.08);
   --sticky-shadow: 10px 0 18px rgba(10, 18, 32, 0.12);
 
+  --bg-hover: #0001;
+
   padding: 20px 18px 48px;
   min-height: 100vh;
   background: var(--bg);
@@ -966,6 +968,8 @@ const allRowsSorted = computed(() => {
 
     --card-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
     --sticky-shadow: 10px 0 18px rgba(0, 0, 0, 0.28);
+
+    --bg-hover: #fff1;
   }
 }
 
@@ -1146,8 +1150,14 @@ const allRowsSorted = computed(() => {
   font-weight: 650;
 }
 
-.table tbody tr:hover td {
-  background: var(--hover);
+.table tbody tr:hover td:not(.sticky-left):not(.sticky-left-2) {
+  position: relative;
+}
+.table tbody tr:hover td::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg-hover);
 }
 
 .col-rank {
@@ -1174,6 +1184,7 @@ const allRowsSorted = computed(() => {
   left: 0;
   z-index: 5;
   background: var(--sticky-head-bg);
+  --bg-color-td: var(--sticky-head-bg);
   background-clip: padding-box;
 }
 
@@ -1182,6 +1193,7 @@ const allRowsSorted = computed(() => {
   left: var(--rank-w);
   z-index: 5;
   background: var(--sticky-head-bg);
+  --bg-color-td: var(--sticky-head-bg);
   background-clip: padding-box;
   box-shadow: var(--sticky-shadow);
 }
@@ -1194,6 +1206,7 @@ const allRowsSorted = computed(() => {
 .table tbody .sticky-left,
 .table tbody .sticky-left-2 {
   background: var(--sticky-body-bg);
+  --bg-color-td: var(--sticky-body-bg);
 }
 
 .th-top {
