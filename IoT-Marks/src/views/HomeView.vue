@@ -273,7 +273,7 @@ const students = ref([
   {studentId: "22305472", firstName: ""},
   {studentId: "22505517", firstName: ""},
   {studentId: "22507945", firstName: ""},
-  {studentId: "22202376", firstName: ""},
+  {studentId: "22202376", firstName: "Nunzio DALL'O"},
   {studentId: "22506824", firstName: ""},
   {studentId: "22507293", firstName: ""},
   {studentId: "22203035", firstName: "Arthur KEUSCH"},
@@ -287,7 +287,7 @@ const students = ref([
 
 const ueTable = ref([
   {
-    code: "UE1",
+    code: "UC1",
     name: "Team Management and Communication",
     exams: [
       {
@@ -459,6 +459,132 @@ const ueTable = ref([
           {studentId: "22509181", note: 6.67},
           {studentId: "22509749", note: 20.0},
           {studentId: "22011226", note: 13.33}
+        ]
+      }
+    ]
+  },
+  {
+    code: "UE1",
+    name: "Advanced and distributed algorithms",
+    exams: [
+      {
+        name: "BTS Tree",
+        coefficient: 1,
+        notes: [
+          {studentId: "22408731", note: 11.0},
+          {studentId: "22507302", note: 9.0},
+          {studentId: "22405985", note: 9.0},
+          {studentId: "22409344", note: 12.0},
+          {studentId: "22203353", note: 9.0},
+          {studentId: "22305472", note: 12.0},
+          {studentId: "22505517", note: 0.0},
+          {studentId: "22507945", note: 7.0},
+          {studentId: "22202376", note: 7.0},
+          {studentId: "22506824", note: 11.0},
+          {studentId: "22507293", note: 11.0},
+          {studentId: "22203035", note: 13.0},
+          {studentId: "22506883", note: 14.0},
+          {studentId: "22102335", note: 0.0},
+          {studentId: "22104441", note: 9.0},
+          {studentId: "22509181", note: 14.0},
+          {studentId: "22509749", note: 16.0},
+          {studentId: "22011226", note: 13.0}
+        ]
+      },
+      {
+        name: "K. Deschinkel",
+        coefficient: 1,
+        notes: [
+          {studentId: "22408731", note: 13.0},
+          {studentId: "22507302", note: 16.0},
+          {studentId: "22405985", note: 15.0},
+          {studentId: "22409344", note: 12.5},
+          {studentId: "22203353", note: 13.0},
+          {studentId: "22305472", note: 13.0},
+          {studentId: "22505517", note: 13.0},
+          {studentId: "22507945", note: 12.5},
+          {studentId: "22202376", note: 14.0},
+          {studentId: "22506824", note: 15.0},
+          {studentId: "22507293", note: 16.0},
+          {studentId: "22203035", note: 14.0},
+          {studentId: "22506883", note: 14.0},
+          {studentId: "22102335", note: 0.0},
+          {studentId: "22104441", note: 10.0},
+          {studentId: "22509181", note: 17.0},
+          {studentId: "22509749", note: 14.0},
+          {studentId: "22011226", note: 15.0}
+        ]
+      },
+      {
+        name: "Moodle",
+        coefficient: 1,
+        notes: [
+          {studentId: "22408731", note: 9.31},
+          {studentId: "22507302", note: 12.72},
+          {studentId: "22405985", note: 12.1},
+          {studentId: "22409344", note: 3.77},
+          {studentId: "22203353", note: 7.22},
+          {studentId: "22305472", note: 8.8},
+          {studentId: "22505517", note: 3.89},
+          {studentId: "22507945", note: 5.75},
+          {studentId: "22202376", note: 11.18},
+          {studentId: "22506824", note: 9.86},
+          {studentId: "22507293", note: 7.11},
+          {studentId: "22203035", note: 7.66},
+          {studentId: "22506883", note: 6.82},
+          {studentId: "22102335", note: 9.97},
+          {studentId: "22104441", note: 12.17},
+          {studentId: "22509181", note: 9.61},
+          {studentId: "22509749", note: 6.82},
+          {studentId: "22011226", note: 18.04}
+        ]
+      },
+      {
+        name: "M. Hakem",
+        coefficient: 1,
+        notes: [
+          {studentId: "22408731", note: 12.0},
+          {studentId: "22507302", note: 16.0},
+          {studentId: "22405985", note: 12.0},
+          {studentId: "22409344", note: 12.0},
+          {studentId: "22203353", note: 14.0},
+          {studentId: "22305472", note: 16.0},
+          {studentId: "22505517", note: 14.0},
+          {studentId: "22507945", note: 12.0},
+          {studentId: "22202376", note: 16.0},
+          {studentId: "22506824", note: 14.0},
+          {studentId: "22507293", note: 16.0},
+          {studentId: "22203035", note: 16.0},
+          {studentId: "22506883", note: 15.0},
+          {studentId: "22102335", note: 15.0},
+          {studentId: "22104441", note: 15.0},
+          {studentId: "22509181", note: 15.0},
+          {studentId: "22509749", note: 15.0},
+          {studentId: "22011226", note: 16.0}
+        ]
+      },
+      {
+        name: "Project",
+        coefficient: 1,
+        notes: [
+          {studentId: "22408731", note: 10.0},
+          {studentId: "22507302", note: 11.0},
+          {studentId: "22405985", note: 10.0},
+          {studentId: "22409344", note: 12.0},
+          {studentId: "22203353", note: 13.0},
+          {studentId: "22305472", note: 13.0},
+          {studentId: "22505517", note: 11.0},
+          {studentId: "22507945", note: 12.0},
+          {studentId: "22202376", note: 16.0},
+          {studentId: "22506824", note: 11.0},
+          {studentId: "22507293", note: 11.0},
+          {studentId: "22203035", note: 11.0},
+          {studentId: "22506883", note: 15.0},
+          {studentId: "22102335", note: 9.0},
+          {studentId: "22104441", note: 9.0},
+          {studentId: "22509181", note: 12.0},
+          {studentId: "22509749", note: 15.0},
+          {studentId: "22011226", note: 14.0}
         ]
       }
     ]
