@@ -473,7 +473,7 @@ const ueTable = ref([
         notes: [
           {studentId: "22408731", note: 11.0},
           {studentId: "22507302", note: 9.0},
-          {studentId: "22405985", note: 9.0},
+          {studentId: "22505985", note: 9.0},
           {studentId: "22409344", note: 12.0},
           {studentId: "22203353", note: 9.0},
           {studentId: "22305472", note: 12.0},
@@ -497,7 +497,7 @@ const ueTable = ref([
         notes: [
           {studentId: "22408731", note: 13.0},
           {studentId: "22507302", note: 16.0},
-          {studentId: "22405985", note: 15.0},
+          {studentId: "22505985", note: 15.0},
           {studentId: "22409344", note: 12.5},
           {studentId: "22203353", note: 13.0},
           {studentId: "22305472", note: 13.0},
@@ -521,7 +521,7 @@ const ueTable = ref([
         notes: [
           {studentId: "22408731", note: 9.31},
           {studentId: "22507302", note: 12.72},
-          {studentId: "22405985", note: 12.1},
+          {studentId: "22505985", note: 12.1},
           {studentId: "22409344", note: 3.77},
           {studentId: "22203353", note: 7.22},
           {studentId: "22305472", note: 8.8},
@@ -545,7 +545,7 @@ const ueTable = ref([
         notes: [
           {studentId: "22408731", note: 12.0},
           {studentId: "22507302", note: 16.0},
-          {studentId: "22405985", note: 12.0},
+          {studentId: "22505985", note: 12.0},
           {studentId: "22409344", note: 12.0},
           {studentId: "22203353", note: 14.0},
           {studentId: "22305472", note: 16.0},
@@ -569,7 +569,7 @@ const ueTable = ref([
         notes: [
           {studentId: "22408731", note: 10.0},
           {studentId: "22507302", note: 11.0},
-          {studentId: "22405985", note: 10.0},
+          {studentId: "22505985", note: 10.0},
           {studentId: "22409344", note: 12.0},
           {studentId: "22203353", note: 13.0},
           {studentId: "22305472", note: 13.0},
