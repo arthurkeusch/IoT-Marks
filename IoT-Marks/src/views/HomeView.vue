@@ -663,6 +663,58 @@ const ueTable = ref([
         ]
       }
     ]
+  },
+  {
+    code: "LAS",
+    name: "LAS Realisation and development of IOT application",
+    exams: [
+      {
+        name: "M. Azar",
+        coefficient: 0.50,
+        notes: [
+          {studentId: "22507302", note: 17.00},
+          {studentId: "22505985", note: 12.75},
+          {studentId: "22409344", note: 12.50},
+          {studentId: "22203353", note: 14.00},
+          {studentId: "22305472", note: 14.00},
+          {studentId: "22505517", note: 15.00},
+          {studentId: "22507945", note: 12.50},
+          {studentId: "22202376", note: 14.00},
+          {studentId: "22506824", note: 15.00},
+          {studentId: "22507293", note: 17.00},
+          {studentId: "22203035", note: 14.00},
+          {studentId: "22506883", note: 12.75},
+          {studentId: "22102335", note: 13.50},
+          {studentId: "22104441", note: 15.00},
+          {studentId: "22509181", note: 16.00},
+          {studentId: "22509749", note: 16.00},
+          {studentId: "22011226", note: 14.00}
+        ]
+      },
+      {
+        name: "M. Makhoul",
+        coefficient: 0.50,
+        notes: [
+          {studentId: "22507302", note: 17.00},
+          {studentId: "22505985", note: 17.00},
+          {studentId: "22409344", note: 17.00},
+          {studentId: "22203353", note: 17.00},
+          {studentId: "22305472", note: 17.00},
+          {studentId: "22505517", note: 15.00},
+          {studentId: "22507945", note: 17.00},
+          {studentId: "22202376", note: 17.50},
+          {studentId: "22506824", note: 17.00},
+          {studentId: "22507293", note: 17.00},
+          {studentId: "22203035", note: 17.50},
+          {studentId: "22506883", note: 16.00},
+          {studentId: "22102335", note: 17.00},
+          {studentId: "22104441", note: 17.00},
+          {studentId: "22509181", note: 16.00},
+          {studentId: "22509749", note: 15.00},
+          {studentId: "22011226", note: 17.50}
+        ]
+      }
+    ]
   }
 ]);
 
