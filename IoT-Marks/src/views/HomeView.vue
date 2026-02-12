@@ -715,6 +715,104 @@ const ueTable = ref([
         ]
       }
     ]
+  },
+  {
+    code: "UE2",
+    name: "Mobile development",
+    exams: [
+      {
+        name: "Livrable",
+        coefficient: 0.33,
+        notes: [
+          {studentId: "22507302", note: 12.00},
+          {studentId: "22505985", note: 13.00},
+          {studentId: "22409344", note: 7.00},
+          {studentId: "22203353", note: 15.00},
+          {studentId: "22305472", note: 12.00},
+          {studentId: "22505517", note: 10.00},
+          {studentId: "22507945", note: 13.00},
+          {studentId: "22202376", note: 15.00},
+          {studentId: "22506824", note: 12.00},
+          {studentId: "22507293", note: 12.00},
+          {studentId: "22203035", note: 15.00},
+          {studentId: "22506883", note: 14.00},
+          {studentId: "22102335", note: 16.00},
+          {studentId: "22104441", note: 14.00},
+          {studentId: "22509181", note: 11.00},
+          {studentId: "22509749", note: 13.00},
+          {studentId: "22011226", note: 16.00}
+        ]
+      },
+      {
+        name: "Ecrit",
+        coefficient: 0.17,
+        notes: [
+          {studentId: "22507302", note: 12.00},
+          {studentId: "22505985", note: 13.00},
+          {studentId: "22409344", note: 7.00},
+          {studentId: "22203353", note: 15.00},
+          {studentId: "22305472", note: 12.00},
+          {studentId: "22505517", note: 10.00},
+          {studentId: "22507945", note: 13.00},
+          {studentId: "22202376", note: 15.00},
+          {studentId: "22506824", note: 12.00},
+          {studentId: "22507293", note: 12.00},
+          {studentId: "22203035", note: 15.00},
+          {studentId: "22506883", note: 14.00},
+          {studentId: "22102335", note: 16.00},
+          {studentId: "22104441", note: 14.00},
+          {studentId: "22509181", note: 11.00},
+          {studentId: "22509749", note: 13.00},
+          {studentId: "22011226", note: 16.00}
+        ]
+      },
+      {
+        name: "Pratique",
+        coefficient: 0.17,
+        notes: [
+          {studentId: "22507302", note: 18.50},
+          {studentId: "22505985", note: 14.00},
+          {studentId: "22409344", note: 16.00},
+          {studentId: "22203353", note: 19.00},
+          {studentId: "22305472", note: 18.50},
+          {studentId: "22505517", note: 19.00},
+          {studentId: "22507945", note: 16.50},
+          {studentId: "22202376", note: 18.50},
+          {studentId: "22506824", note: 15.00},
+          {studentId: "22507293", note: 18.00},
+          {studentId: "22203035", note: 20.00},
+          {studentId: "22506883", note: 12.00},
+          {studentId: "22102335", note: 10.00},
+          {studentId: "22104441", note: 13.00},
+          {studentId: "22509181", note: 13.00},
+          {studentId: "22509749", note: 13.00},
+          {studentId: "22011226", note: 14.00}
+        ]
+      },
+      {
+        name: "Livrable",
+        coefficient: 0.33,
+        notes: [
+          {studentId: "22507302", note: 17.50},
+          {studentId: "22505985", note: 9.50},
+          {studentId: "22409344", note: 13.00},
+          {studentId: "22203353", note: 6.50},
+          {studentId: "22305472", note: 18.00},
+          {studentId: "22505517", note: 8.50},
+          {studentId: "22507945", note: 7.50},
+          {studentId: "22202376", note: 8.50},
+          {studentId: "22506824", note: 11.00},
+          {studentId: "22507293", note: 18.5},
+          {studentId: "22203035", note: 11.00},
+          {studentId: "22506883", note: 12.00},
+          {studentId: "22102335", note: 12.50},
+          {studentId: "22104441", note: 11.00},
+          {studentId: "22509181", note: 15.00},
+          {studentId: "22509749", note: 15.00},
+          {studentId: "22011226", note: 14.50}
+        ]
+      }
+    ]
   }
 ]);
 
