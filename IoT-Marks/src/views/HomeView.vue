@@ -6,16 +6,36 @@
       </div>
     </div>
 
-    <div class="accordion">
+    <div v-for="semester in normalizedSemesters" :key="semester.id" class="semester">
+      <button class="semester-trigger" type="button" @click="toggleOpen(semester.id)" :aria-expanded="isOpen(semester.id)">
+        <span class="acc-left">
+          <span class="acc-badge">Semester</span>
+          <span class="acc-label">{{ semester.label }}</span>
+        </span>
+        <span class="acc-right">
+          <span class="acc-meta">{{ semester.ues.length }} units</span>
+          <span class="acc-chevron" :class="{ open: isOpen(semester.id) }">
+            <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
+              <path
+                  fill="currentColor"
+                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+              />
+            </svg>
+          </span>
+        </span>
+      </button>
+
+      <transition name="expand">
+        <div class="accordion" v-show="isOpen(semester.id)">
       <section class="acc-item">
-        <button class="acc-trigger" type="button" @click="toggleOpen(ALL_ID)" :aria-expanded="isOpen(ALL_ID)">
+        <button class="acc-trigger" type="button" @click="toggleOpen(semester.allId)" :aria-expanded="isOpen(semester.allId)">
           <span class="acc-left">
             <span class="acc-badge">Overview</span>
             <span class="acc-label">Overall averages</span>
           </span>
           <span class="acc-right">
-            <span class="acc-meta">{{ allRowsSorted.length }} students</span>
-            <span class="acc-chevron" :class="{ open: isOpen(ALL_ID) }">
+            <span class="acc-meta">{{ semester.allRowsSorted.length }} students</span>
+            <span class="acc-chevron" :class="{ open: isOpen(semester.allId) }">
               <svg class="icon" viewBox="0 0 16 16" aria-hidden="true">
                 <path
                     fill="currentColor"
@@ -27,7 +47,7 @@
         </button>
 
         <transition name="expand">
-          <div class="acc-panel" v-show="isOpen(ALL_ID)">
+          <div class="acc-panel" v-show="isOpen(semester.allId)">
             <div class="table-wrap">
               <table class="table">
                 <thead>
@@ -35,7 +55,7 @@
                   <th class="col-rank sticky-left">#</th>
                   <th class="col-student sticky-left-2">Student</th>
 
-                  <th v-for="ue in normalizedUes" :key="ue.id" class="col-exam">
+                  <th v-for="ue in semester.ues" :key="ue.id" class="col-exam">
                     <div class="th-top">
                       <div class="th-title">
                         <div class="th-name">{{ ue.label }}</div>
@@ -45,11 +65,11 @@
                         <button
                             class="sort-btn"
                             type="button"
-                            @click="toggleAllSort(ue.id)"
-                            :class="sortBtnClass(allSortState(ue.id))"
+                            @click="toggleAllSort(semester.id, ue.id)"
+                            :class="sortBtnClass(allSortState(semester.id, ue.id))"
                             :aria-label="'Sort by ' + ue.label"
                         >
-                          <SortIcon :state="allSortState(ue.id)"/>
+                          <SortIcon :state="allSortState(semester.id, ue.id)"/>
                         </button>
                       </div>
                     </div>
@@ -65,11 +85,11 @@
                         <button
                             class="sort-btn"
                             type="button"
-                            @click="toggleAllSort(ALL_AVG_KEY)"
-                            :class="sortBtnClass(allSortState(ALL_AVG_KEY))"
+                            @click="toggleAllSort(semester.id, ALL_AVG_KEY)"
+                            :class="sortBtnClass(allSortState(semester.id, ALL_AVG_KEY))"
                             aria-label="Sort by overall average"
                         >
-                          <SortIcon :state="allSortState(ALL_AVG_KEY)"/>
+                          <SortIcon :state="allSortState(semester.id, ALL_AVG_KEY)"/>
                         </button>
                       </div>
                     </div>
@@ -78,7 +98,7 @@
                 </thead>
 
                 <tbody>
-                <tr v-for="(row, idx) in allRowsSorted" :key="row.studentId">
+                <tr v-for="(row, idx) in semester.allRowsSorted" :key="row.studentId">
                   <td class="col-rank sticky-left">{{ idx + 1 }}</td>
                   <td class="col-student sticky-left-2">
                     <div class="student">
@@ -87,7 +107,7 @@
                     </div>
                   </td>
 
-                  <td v-for="ue in normalizedUes" :key="ue.id" class="cell">
+                  <td v-for="ue in semester.ues" :key="ue.id" class="cell">
                     <span :class="['badge', row.ueAvg[ue.id] == null ? 'muted' : '']">{{ fmt(row.ueAvg[ue.id]) }}</span>
                   </td>
 
@@ -96,8 +116,8 @@
                   </td>
                 </tr>
 
-                <tr v-if="allRowsSorted.length === 0">
-                  <td :colspan="2 + normalizedUes.length + 1" class="empty">No data to display.</td>
+                <tr v-if="semester.allRowsSorted.length === 0">
+                  <td :colspan="2 + semester.ues.length + 1" class="empty">No data to display.</td>
                 </tr>
                 </tbody>
               </table>
@@ -106,7 +126,7 @@
         </transition>
       </section>
 
-      <section v-for="ue in normalizedUes" :key="ue.id" class="acc-item">
+      <section v-for="ue in semester.ues" :key="ue.id" class="acc-item">
         <button class="acc-trigger" type="button" @click="toggleOpen(ue.id)" :aria-expanded="isOpen(ue.id)">
           <span class="acc-left">
             <span class="acc-badge">Unit</span>
@@ -206,6 +226,8 @@
           </div>
         </transition>
       </section>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -285,7 +307,11 @@ const students = ref([
   {studentId: "22011226", firstName: ""}
 ])
 
-const ueTable = ref([
+const semesterTable = ref([
+  {
+    code: "S1",
+    name: "Semestre 1",
+    ues: [
   {
     code: "UC1",
     name: "Team Management and Communication",
@@ -814,11 +840,73 @@ const ueTable = ref([
       }
     ]
   }
+    ]
+  },
+  {
+    code: "S2",
+    name: "Semestre 2",
+    ues: [
+      {
+        code: "UE8",
+        name: "Machine Learning",
+        exams: [
+          {
+            name: "Ecrit",
+            coefficient: 1,
+            notes: [
+              {studentId: "22507302", note: 15.5},
+              {studentId: "22505985", note: 15.5},
+              {studentId: "22409344", note: 13.0},
+              {studentId: "22203353", note: 13.0},
+              {studentId: "22305472", note: 15.5},
+              {studentId: "22505517", note: 14.0},
+              {studentId: "22507945", note: 14.0},
+              {studentId: "22202376", note: 15.0},
+              {studentId: "22507293", note: 15.5},
+              {studentId: "22203035", note: 14.0},
+              {studentId: "22506883", note: 14.5},
+              {studentId: "22102335", note: 0.0},
+              {studentId: "22104441", note: 0.0},
+              {studentId: "22509181", note: 10.0},
+              {studentId: "22509749", note: 13.0},
+              {studentId: "22011226", note: 15.0}
+            ]
+          },
+          {
+            name: "Livrable",
+            coefficient: 1,
+            notes: [
+              {studentId: "22507302", note: 17.5},
+              {studentId: "22505985", note: 17.5},
+              {studentId: "22409344", note: 13.0},
+              {studentId: "22203353", note: 14.0},
+              {studentId: "22305472", note: 17.5},
+              {studentId: "22505517", note: 15.0},
+              {studentId: "22507945", note: 14.0},
+              {studentId: "22202376", note: 17.0},
+              {studentId: "22507293", note: 17.5},
+              {studentId: "22203035", note: 16.0},
+              {studentId: "22506883", note: 15.5},
+              {studentId: "22102335", note: 0.0},
+              {studentId: "22104441", note: 8.0},
+              {studentId: "22509181", note: 15.0},
+              {studentId: "22509749", note: 13.0},
+              {studentId: "22011226", note: 17.0}
+            ]
+          }
+        ]
+      }
+    ]
+  }
 ]);
 
-const openSet = reactive(new Set([ALL_ID]))
+const openSet = reactive(new Set(["S2", semesterAllId("S2")]))
 const ueSort = reactive({})
-const allSort = reactive({key: ALL_AVG_KEY, dir: "desc"})
+const allSort = reactive({})
+
+function semesterAllId(semesterId) {
+  return `${semesterId}${ALL_ID}`
+}
 
 function isOpen(id) {
   return openSet.has(id)
@@ -897,10 +985,15 @@ function sortBtnClass(state) {
   }
 }
 
-function allSortState(key) {
-  if (allSort.key !== key) return "none"
-  if (allSort.dir === "asc") return "asc"
-  if (allSort.dir === "desc") return "desc"
+function allSortState(semesterId, key) {
+  const s = allSort[semesterId]
+  if (!s) {
+    if (key === ALL_AVG_KEY) return "desc"
+    return "none"
+  }
+  if (s.key !== key) return "none"
+  if (s.dir === "asc") return "asc"
+  if (s.dir === "desc") return "desc"
   return "none"
 }
 
@@ -916,22 +1009,21 @@ function ueSortState(ueId, key) {
   return "none"
 }
 
-function toggleAllSort(key) {
-  if (allSort.key !== key) {
-    allSort.key = key
-    allSort.dir = "desc"
+function toggleAllSort(semesterId, key) {
+  const s = allSort[semesterId]
+  if (!s || s.key !== key) {
+    allSort[semesterId] = {key, dir: "desc"}
     return
   }
-  if (allSort.dir === "desc") {
-    allSort.dir = "asc"
+  if (s.dir === "desc") {
+    allSort[semesterId] = {key, dir: "asc"}
     return
   }
-  if (allSort.dir === "asc") {
-    allSort.key = null
-    allSort.dir = null
+  if (s.dir === "asc") {
+    allSort[semesterId] = {key: null, dir: null}
     return
   }
-  allSort.dir = "desc"
+  allSort[semesterId] = {key, dir: "desc"}
 }
 
 function toggleUeSort(ueId, key) {
@@ -951,16 +1043,18 @@ function toggleUeSort(ueId, key) {
   ueSort[ueId] = {key, dir: "desc"}
 }
 
-const normalizedUes = computed(() => {
-  const raw = Array.isArray(ueTable.value) ? ueTable.value : []
+function normalizeUes(rawUes, semesterId) {
+  const raw = Array.isArray(rawUes) ? rawUes : []
 
   return raw.map((ueRaw, ueIdx) => {
-    const id = toStr(pick(ueRaw, ["id", "ueId", "code", "ueCode"], `UNIT_${ueIdx + 1}`)) || `UNIT_${ueIdx + 1}`
-    const label = [toStr(pick(ueRaw, ["code", "ueCode"], "")), toStr(pick(ueRaw, ["name", "ueName", "title"], ""))].filter(Boolean).join(" · ") || id
+    const code = toStr(pick(ueRaw, ["id", "ueId", "code", "ueCode"], `UNIT_${ueIdx + 1}`)) || `UNIT_${ueIdx + 1}`
+    const id = `${semesterId}_${code}`
+    const label = [toStr(pick(ueRaw, ["code", "ueCode"], "")), toStr(pick(ueRaw, ["name", "ueName", "title"], ""))].filter(Boolean).join(" · ") || code
 
     const examsRaw = Array.isArray(pick(ueRaw, ["exams", "examens", "evaluations"], [])) ? pick(ueRaw, ["exams", "examens", "evaluations"], []) : []
     const exams = examsRaw.map((exRaw, exIdx) => {
-      const exId = toStr(pick(exRaw, ["id", "examId", "code", "key"], `${id}_EX_${exIdx + 1}`)) || `${id}_EX_${exIdx + 1}`
+      const exKey = toStr(pick(exRaw, ["id", "examId", "code", "key"], `EX_${exIdx + 1}`)) || `EX_${exIdx + 1}`
+      const exId = `${id}_${exKey}`
       const exLabel = toStr(pick(exRaw, ["name", "exam", "title", "label"], `Exam ${exIdx + 1}`)) || `Exam ${exIdx + 1}`
       const coef = normNumber(pick(exRaw, ["coef", "coeff", "coefficient"], 1)) ?? 1
       const notesRaw = Array.isArray(pick(exRaw, ["notes", "grades", "results"], [])) ? pick(exRaw, ["notes", "grades", "results"], []) : []
@@ -1004,12 +1098,12 @@ const normalizedUes = computed(() => {
 
     return {id, label, exams, rows, rowsSorted}
   })
-})
+}
 
-const allRows = computed(() => {
+function buildAllRows(ues) {
   const m = new Map()
 
-  for (const ue of normalizedUes.value) {
+  for (const ue of ues) {
     for (const r of ue.rows) {
       if (!m.has(r.studentId)) m.set(r.studentId, {studentId: r.studentId, ueAvg: {}, globalAvg: null})
       m.get(r.studentId).ueAvg[ue.id] = r.ueAvg
@@ -1017,16 +1111,17 @@ const allRows = computed(() => {
   }
 
   return Array.from(m.values()).map(r => {
-    const avgs = normalizedUes.value.map(ue => r.ueAvg[ue.id]).filter(v => v != null && Number.isFinite(Number(v)))
+    const avgs = ues.map(ue => r.ueAvg[ue.id]).filter(v => v != null && Number.isFinite(Number(v)))
     r.globalAvg = avgs.length ? avgs.reduce((a, b) => a + Number(b), 0) / avgs.length : null
     return r
   })
-})
+}
 
-const allRowsSorted = computed(() => {
-  const key = allSort.key
-  const dir = allSort.dir
-  const base = allRows.value.slice()
+function sortAllRows(rows, semesterId) {
+  const s = allSort[semesterId]
+  const key = s ? s.key : ALL_AVG_KEY
+  const dir = s ? s.dir : "desc"
+  const base = rows.slice()
 
   if (!key || !dir) {
     return stableSort(base, (a, b) => toStr(a.studentId).localeCompare(toStr(b.studentId)))
@@ -1035,6 +1130,19 @@ const allRowsSorted = computed(() => {
   return stableSort(base, (a, b) => {
     if (key === ALL_AVG_KEY) return cmpNullable(a.globalAvg, b.globalAvg, dir)
     return cmpNullable(a.ueAvg?.[key], b.ueAvg?.[key], dir)
+  })
+}
+
+const normalizedSemesters = computed(() => {
+  const raw = Array.isArray(semesterTable.value) ? semesterTable.value : []
+
+  return raw.map((semesterRaw, semesterIdx) => {
+    const id = toStr(pick(semesterRaw, ["id", "semesterId", "code"], `S${semesterIdx + 1}`)) || `S${semesterIdx + 1}`
+    const label = toStr(pick(semesterRaw, ["name", "title", "label"], id)) || id
+    const ues = normalizeUes(pick(semesterRaw, ["ues", "units", "ueTable"], []), id)
+    const allRows = buildAllRows(ues)
+    const allRowsSorted = sortAllRows(allRows, id)
+    return {id, label, allId: semesterAllId(id), ues, allRows, allRowsSorted}
   })
 })
 </script>
@@ -1150,6 +1258,36 @@ const allRowsSorted = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.semester {
+  max-width: 1200px;
+  margin: 0 auto 12px;
+}
+
+.semester-trigger {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--panel-grad-1), var(--panel-grad-2));
+  color: var(--text);
+  padding: 12px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 14px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 10px;
+}
+
+.semester-trigger:hover {
+  background: var(--hover);
+}
+
+.semester > .accordion {
+  padding-left: 28px;
 }
 
 .acc-item {
@@ -1484,6 +1622,10 @@ const allRowsSorted = computed(() => {
 @media (max-width: 640px) {
   .page {
     padding: 14px 12px 28px;
+  }
+
+  .semester > .accordion {
+    padding-left: 14px;
   }
 
   .title h1 {
