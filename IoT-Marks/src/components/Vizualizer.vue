@@ -52,11 +52,11 @@
           let studentCoeff = 0;
           for (const mark of subject.marks) {
             const studentMark = mark.marks[student.studentId];
-            if (studentMark) {
+            if (studentMark !== undefined) {
               studentTotal += studentMark * mark.coeff;
               studentCoeff += mark.coeff;
             }
-            if (studentCoeff > 0) subjectTotal[student.studentId] = Math.round(studentTotal / studentCoeff, 2);
+            if (studentCoeff > 0) subjectTotal[student.studentId] = Math.round(studentTotal / studentCoeff * 100) / 100;
             else                  subjectTotal[student.studentId] = null;
           }
         }
@@ -74,7 +74,7 @@
             studentTotal += studentMark;
             studentCoeff += 1;
           }
-          if (studentCoeff > 0) total[student.studentId] = Math.round(studentTotal / studentCoeff, 2);
+          if (studentCoeff > 0) total[student.studentId] = Math.round(studentTotal / studentCoeff * 100) / 100;
           else                  total[student.studentId] = null;
         }
       }
@@ -86,12 +86,14 @@
   const totalTableHeaders = computed(() => {
     const headers = {};
     for (const semester of marks.value) {
-      headers[semester.id] = [
-                                       { title: 'Student', key: 'student',         align: 'start' },
-        ...semester.subjects.map(s => ({ title: s.id,      key: `subject-${s.id}`, align: 'end'   })),
-                                       { title: 'Total',   key: 'total',           align: 'end'   }
-      ];
+      headers[semester.id] = [];
+      headers[semester.id].push({ title: 'Student', key: 'student', align: 'start' });
+      for (let subjectIdx = 0; subjectIdx < semester.subjects.length; subjectIdx++) {
+        headers[semester.id].push({ title: semester.subjects[subjectIdx].id, key: `subject-${subjectIdx}`, align: 'end' });
+      }
+      headers[semester.id].push({ title: 'Total', key: 'total', align: 'end' });
     }
+    console.debug(headers);
     return headers;
   });
 
@@ -100,10 +102,16 @@
     for (const semester of marks.value) {
       items[semester.id] = students.value.map(student => ({
         student: student.name || student.studentId,
-        ...Object.fromEntries(semester.subjects.map(s => [`subject-${s.id}`, s.total[student.studentId] ?? '-'])),
         total: semester.total[student.studentId] ?? '-'
       }));
+      for (let studentIdx = 0; studentIdx < students.value.length; studentIdx++) {
+        const student = students.value[studentIdx];
+        for (let subjectIdx = 0; subjectIdx < semester.subjects.length; subjectIdx++) {
+          items[semester.id][studentIdx][`subject-${subjectIdx}`] = semester.subjects[subjectIdx].total[student.studentId] ?? '-';
+        }
+      }
     }
+    console.debug(items);
     return items;
   });
 
@@ -112,13 +120,15 @@
     for (const semester of marks.value) {
       headers[semester.id] = {};
       for (const subject of semester.subjects) {
-        headers[semester.id][subject.id] = [
-                                     { title: 'Student', key: 'student',        align: 'start' },
-          ...subject.marks.map(m => ({ title: m.name,    key: `mark-${m.name}`, align: 'end'   })),
-                                     { title: 'Total',   key: 'total',          align: 'end'   }
-        ];
+        headers[semester.id][subject.id] = [];
+        headers[semester.id][subject.id].push({ title: 'Student', key: 'student', align: 'start' });
+        for (let markIdx = 0; markIdx < subject.marks.length; markIdx++) {
+          headers[semester.id][subject.id].push({ title: subject.marks[markIdx].name, key: `mark-${markIdx}`, align: 'end' });
+        }
+        headers[semester.id][subject.id].push({ title: 'Total', key: 'total', align: 'end' });
       }
     }
+    console.debug(headers);
     return headers;
   });
 
@@ -129,11 +139,17 @@
       for (const subject of semester.subjects) {
         items[semester.id][subject.id] = students.value.map(student => ({
           student: student.name || student.studentId,
-          ...Object.fromEntries(subject.marks.map(m => [`mark-${m.name}`, m.marks[student.studentId] ?? '-'])),
           total: subject.total[student.studentId] ?? '-'
         }));
+        for (let studentIdx = 0; studentIdx < students.value.length; studentIdx++) {
+          const student = students.value[studentIdx];
+          for (let markIdx = 0; markIdx < subject.marks.length; markIdx++) {
+            items[semester.id][subject.id][studentIdx][`mark-${markIdx}`] = subject.marks[markIdx].marks[student.studentId] ?? '-';
+          }
+        }
       }
     }
+    console.debug(items);
     return items;
   });
 </script>
@@ -158,10 +174,11 @@
         <!-- Semester Title -->
         <VExpansionPanelTitle>
           <div class="d-flex align-center w-100 pr-4">
-            <VChip size="small" color="primary" variant="tonal" class="mr-3"> Semester </VChip>
             <span class="text-h6 font-weight-bold">{{ semester.name }}</span>
             <VSpacer />
-            <span class="text-caption text-medium-emphasis">{{ semester.subjects.length }} unit{{ semester.subjects.length !== 1 ? 's' : '' }}</span>
+            <VChip size="small" color="primary" variant="tonal" class="font-weight-bold">
+              {{ semester.subjects.length }} unit{{ semester.subjects.length !== 1 ? 's' : '' }}
+            </VChip>
           </div>
         </VExpansionPanelTitle>
 
@@ -177,12 +194,16 @@
             <VExpansionPanel
               :value="'total-' + semester.id"
               class="mb-2 rounded-lg elevation-1"
+              style="background-color: rgba(var(--v-theme-surface), 0.6)"
             >
               <!-- Subject Title -->
               <VExpansionPanelTitle>
                 <div class="d-flex align-center w-100 pr-4">
-                  <VChip size="small" color="secondary" variant="tonal" class="mr-3 font-weight-bold"> Total </VChip>
                   <span class="text-subtitle-1 font-weight-bold" style="font-size: 1.1rem">Total</span>
+                  <VSpacer />
+                  <VChip size="small" color="secondary" variant="tonal" class="font-weight-bold">
+                    {{ semester.subjects.length }} unit{{ semester.subjects.length !== 1 ? 's' : '' }}
+                  </VChip>
                 </div>
               </VExpansionPanelTitle>
 
@@ -192,38 +213,58 @@
                   :headers="totalTableHeaders[semester.id]"
                   :items="totalTableItems[semester.id]"
                   density="comfortable"
-                  class="elevation-1"
-                  style="background-color: rgb(var(--v-theme-surface-light), 0.2)"
+                  class="bg-transparent"
                   fixed-header
                   hover
                 >
+                  <!-- Marks headers -->
                   <template 
-                    v-for="subject in semester.subjects" 
-                    :key="`header-${subject.id}`" 
-                    v-slot:[`header.subject-${subject.id}`]="{ column }"
+                    v-for="(item, index) in semester.subjects" 
+                    :key="`header-${index}`" 
+                    v-slot:[`header.subject-${index}`]="{ column, isSorted, sortBy }"
                   >
+                    <VIcon
+                      v-if="column.sortable"
+                      :icon="isSorted(column) &&sortBy.find(
+                        sort => sort.key === column.key).order == 'desc'
+                      ? 'mdi-arrow-down' : 'mdi-arrow-up'"
+                      :class="[
+                        'v-data-table-header__sort-icon',
+                        { 'v-data-table-header__sort-icon--active': isSorted(column) }
+                      ]"
+                    />
                     <span style="font-size: 0.8rem; font-weight: 600">{{ column.title }}</span>
                   </template>
 
-                  <template v-slot:header.total="{ column }">
+                  <!-- Total header -->
+                  <template v-slot:header.total="{ column, isSorted, sortBy }">
+                    <VIcon
+                      v-if="column.sortable"
+                      :icon="isSorted(column) &&sortBy.find(
+                        sort => sort.key === column.key).order == 'desc'
+                      ? 'mdi-arrow-down' : 'mdi-arrow-up'"
+                      :class="[
+                        'v-data-table-header__sort-icon',
+                        { 'v-data-table-header__sort-icon--active': isSorted(column) }
+                      ]"
+                    />
                     <span class="text-uppercase font-weight-bold">{{ column.title }}</span>
                   </template>
 
-                  <template v-slot:item.student="{ value }">
-                    <span>{{ value }}</span>
-                  </template>
-
+                  <!-- Mark columns -->
                   <template 
-                    v-for="subject in semester.subjects" 
-                    :key="`item-${subject.id}`" 
-                    v-slot:[`item.subject-${subject.id}`]="{ value }"
+                    v-for="(item, index) in semester.subjects" 
+                    :key="`item-${index}`" 
+                    v-slot:[`item.subject-${index}`]="{ value }"
                   >
                     <span class="text-medium-emphasis">{{ value }}</span>
                   </template>
 
+                  <!-- Total column -->
                   <template v-slot:item.total="{ value }">
                     <span class="font-weight-bold">{{ value }}</span>
                   </template>
+
                 </VDataTableVirtual>
               </VExpansionPanelText>
             </VExpansionPanel>
@@ -238,11 +279,12 @@
               <!-- Subject Title -->
               <VExpansionPanelTitle>
                 <div class="d-flex align-center w-100 pr-4">
-                  <VChip size="small" color="secondary" variant="tonal" class="mr-3"> UE </VChip>
                   <span class="text-subtitle-1 mr-3">{{ subject.name }}</span>
                   <span class="text-medium-emphasis" style="font-size: 0.85rem">({{ subject.id }})</span>
                   <VSpacer />
-                  <span class="text-caption text-medium-emphasis">{{ subject.marks.length }} mark{{ subject.marks.length !== 1 ? 's' : '' }}</span>
+                  <VChip size="small" color="secondary" variant="tonal">
+                    {{ subject.marks.length }} mark{{ subject.marks.length !== 1 ? 's' : '' }}
+                  </VChip>
                 </div>
               </VExpansionPanelTitle>
 
@@ -252,39 +294,59 @@
                   :headers="subjectTableHeaders[semester.id][subject.id]"
                   :items="subjectTableItems[semester.id][subject.id]"
                   density="comfortable"
-                  class="elevation-1"
-                  style="background-color: rgb(var(--v-theme-surface-light), 0.2)"
+                  class="bg-transparent"
                   fixed-header
                   hover
                 >
+                  <!-- Marks headers -->
                   <template 
-                    v-for="mark in subject.marks" 
-                    :key="`header-${mark.name}`" 
-                    v-slot:[`header.mark-${mark.name}`]="{ column }"
+                    v-for="(item, index) in subject.marks" 
+                    :key="`header-${index}`" 
+                    v-slot:[`header.mark-${index}`]="{ column, isSorted, sortBy }"
                   >
-                    <span class="text-uppercase" style="font-size: 0.8rem; font-weight: 600">{{ mark.name }}</span>
-                    <span class="text-medium-emphasis ml-1">({{ mark.coeff }})</span>
+                    <VIcon
+                      v-if="column.sortable"
+                      :icon="isSorted(column) &&sortBy.find(
+                        sort => sort.key === column.key).order == 'desc'
+                      ? 'mdi-arrow-down' : 'mdi-arrow-up'"
+                      :class="[
+                        'v-data-table-header__sort-icon',
+                        { 'v-data-table-header__sort-icon--active': isSorted(column) }
+                      ]"
+                    />
+                    <span class="text-uppercase" style="font-size: 0.8rem; font-weight: 600">{{ item.name }}</span>
+                    <span class="text-medium-emphasis ml-1">({{ item.coeff }})</span>
                   </template>
 
-                  <template v-slot:header.total="{ column }">
+                  <!-- Total header -->
+                  <template v-slot:header.total="{ column, isSorted, sortBy }">
+                    <VIcon
+                      v-if="column.sortable"
+                      :icon="isSorted(column) &&sortBy.find(
+                        sort => sort.key === column.key).order == 'desc'
+                      ? 'mdi-arrow-down' : 'mdi-arrow-up'"
+                      :class="[
+                        'v-data-table-header__sort-icon',
+                        { 'v-data-table-header__sort-icon--active': isSorted(column) }
+                      ]"
+                    />
                     <span class="text-uppercase font-weight-bold">{{ column.title }}</span>
                   </template>
 
-                  <template v-slot:item.student="{ value }">
-                    <span>{{ value }}</span>
-                  </template>
-
+                  <!-- Mark columns -->
                   <template 
-                    v-for="mark in subject.marks" 
-                    :key="`item-${mark.name}`" 
-                    v-slot:[`item.mark-${mark.name}`]="{ value }"
+                    v-for="(item, index) in subject.marks" 
+                    :key="`item-${index}`" 
+                    v-slot:[`item.mark-${index}`]="{ value }"
                   >
                     <span class="text-medium-emphasis">{{ value }}</span>
                   </template>
 
+                  <!-- Total column -->
                   <template v-slot:item.total="{ value }">
                     <span class="font-weight-bold">{{ value }}</span>
                   </template>
+
                 </VDataTableVirtual>
               </VExpansionPanelText>
             </VExpansionPanel>

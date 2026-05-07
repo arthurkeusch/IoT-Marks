@@ -12,6 +12,12 @@ export default defineConfig({
     vueDevTools(),
     vuetify({ autoImport: true }),
   ],
+  server: {
+    host: true, // Écoute sur 0.0.0.0
+    allowedHosts: [
+      '5173.vscode.anhilyx.fr'
+    ]
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
