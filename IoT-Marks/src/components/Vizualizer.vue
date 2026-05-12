@@ -1,8 +1,15 @@
 <script setup>
   import {ref, onMounted, computed} from "vue";
 
-  const AKEUSCH_ID = "Arthur KEUSCH";
-  const akeusch_hovered = ref(false);
+  const hoverNames = ref([
+    "Arthur KEUSCH",
+    "Nunzio DALL'O"
+  ]);
+
+  const hoverStates = ref({
+    "Arthur KEUSCH": [false, "images/RGB.svg"],
+    "Nunzio DALL'O": [false, "images/RGB2.gif"],
+  });
 
   // Variables for expansion panels
   const _semesters = ref([]);
@@ -159,8 +166,9 @@
 
 <template>
   <VContainer>
-    <!-- AKeusch on-hover logo -->
+    <!-- Special students on-hover logo -->
     <div
+      v-for="student in hoverNames"
       :style="{
         position: 'fixed',
         top: 0,
@@ -169,12 +177,12 @@
         height: '100vh',
         zIndex: 9999,
         pointerEvents: 'none',
-        opacity: akeusch_hovered ? 1 : 0,
+        opacity: hoverStates[student][0] ? 1 : 0,
         transition: 'opacity 0.5s ease'
       }"
     >
       <img
-        src="/images/RGB.svg" 
+        :src="hoverStates[student][1]"
         alt=""
         :style="{
           width: '100%',
@@ -282,8 +290,16 @@
                   <!-- Student column -->
                   <template v-slot:item.student="{ value }">
                     <span
-                      @mouseenter="() => { if (value === AKEUSCH_ID) { akeusch_hovered = true }}"
-                      @mouseleave="() => { if (value === AKEUSCH_ID) { akeusch_hovered = false }}"
+                      @mouseenter="() => {
+                        if (hoverNames.includes(value)) {
+                          hoverStates[value][0] = true;
+                        }
+                      }"
+                      @mouseleave="() => {
+                        if (hoverNames.includes(value)) {
+                          hoverStates[value][0] = false;
+                        }
+                      }"
                     >{{ value }}</span>
                   </template>
 
@@ -372,8 +388,16 @@
                   <!-- Student column -->
                   <template v-slot:item.student="{ value }">
                     <span
-                      @mouseenter="() => { if (value === AKEUSCH_ID) { akeusch_hovered = true }}"
-                      @mouseleave="() => { if (value === AKEUSCH_ID) { akeusch_hovered = false }}"
+                      @mouseenter="() => {
+                        if (hoverNames.includes(value)) {
+                          hoverStates[value][0] = true;
+                        }
+                      }"
+                      @mouseleave="() => {
+                        if (hoverNames.includes(value)) {
+                          hoverStates[value][0] = false;
+                        }
+                      }"
                     >{{ value }}</span>
                   </template>
 
