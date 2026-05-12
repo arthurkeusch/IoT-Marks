@@ -1,6 +1,9 @@
 <script setup>
   import {ref, onMounted, computed} from "vue";
 
+  const AKEUSCH_ID = "Arthur KEUSCH";
+  const akeusch_hovered = ref(false);
+
   // Variables for expansion panels
   const _semesters = ref([]);
   const _subjects = ref({});
@@ -156,6 +159,31 @@
 
 <template>
   <VContainer>
+    <!-- AKeusch on-hover logo -->
+    <div
+      :style="{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 9999,
+        pointerEvents: 'none',
+        opacity: akeusch_hovered ? 1 : 0,
+        transition: 'opacity 0.5s ease'
+      }"
+    >
+      <img
+        src="/images/RGB.svg" 
+        alt=""
+        :style="{
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain'
+        }"
+      />
+    </div>
+
     <!-- Semesters -->
     <VExpansionPanels
       v-model="_semesters"
@@ -251,6 +279,14 @@
                     <span class="text-uppercase font-weight-bold">{{ column.title }}</span>
                   </template>
 
+                  <!-- Student column -->
+                  <template v-slot:item.student="{ value }">
+                    <span
+                      @mouseenter="() => { if (value === AKEUSCH_ID) { akeusch_hovered = true }}"
+                      @mouseleave="() => { if (value === AKEUSCH_ID) { akeusch_hovered = false }}"
+                    >{{ value }}</span>
+                  </template>
+
                   <!-- Mark columns -->
                   <template 
                     v-for="(item, index) in semester.subjects" 
@@ -331,6 +367,14 @@
                       ]"
                     />
                     <span class="text-uppercase font-weight-bold">{{ column.title }}</span>
+                  </template>
+
+                  <!-- Student column -->
+                  <template v-slot:item.student="{ value }">
+                    <span
+                      @mouseenter="() => { if (value === AKEUSCH_ID) { akeusch_hovered = true }}"
+                      @mouseleave="() => { if (value === AKEUSCH_ID) { akeusch_hovered = false }}"
+                    >{{ value }}</span>
                   </template>
 
                   <!-- Mark columns -->
